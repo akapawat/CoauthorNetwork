@@ -22,16 +22,12 @@ def build_graph(G,sch_id,depth: int,bredth: int,last_author=[]):
             if coauthor['name'] not in last_author:
                 last_author.append(author_name)
                 build_graph(G,coauthor['scholar_id'],depth-1,bredth,last_author)
-    else:
-        for coauthor in author['coauthors'][:10]:
-            G.add_edge(author_name,coauthor['name'])
-            G.add_node(coauthor['name'],name=coauthor['name'])
 
 #input and parameters
 name = 'author name here'
 sch_id = next(scholarly.search_author(name))['scholar_id']
 print(sch_id)
-depth = 2
+depth = 4
 bredth = 6
 
 G = nx.DiGraph()
