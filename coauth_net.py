@@ -18,8 +18,8 @@ def build_graph(G,sch_id,depth: int,bredth: int,last_author=[]):
     print("now at %s, depth=%d"%(author_name,depth))
     if depth>0:
         for coauthor in author['coauthors'][:int(bredth)]:
+            G.add_edge(author_name,coauthor['name'])
             if coauthor['name'] not in last_author:
-                G.add_edge(author_name,coauthor['name'])
                 last_author.append(author_name)
                 build_graph(G,coauthor['scholar_id'],depth-1,bredth,last_author)
     else:
@@ -28,13 +28,13 @@ def build_graph(G,sch_id,depth: int,bredth: int,last_author=[]):
             G.add_node(coauthor['name'],name=coauthor['name'])
 
 #input and parameters
-name = 'Leticia Cugliandolo'
+name = 'author name here'
 sch_id = next(scholarly.search_author(name))['scholar_id']
 print(sch_id)
-depth = 4
+depth = 2
 bredth = 6
 
-G = nx.Graph()
+G = nx.DiGraph()
 output_path = '%s_%d_%d.gexf'%(name.replace(' ','_'),depth,bredth)
 
 build_graph(G,sch_id,depth,bredth)
